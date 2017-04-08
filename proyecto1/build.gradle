@@ -1,0 +1,33 @@
+//archivos o funcionalidades que tienen varias cosas listas
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'jacoco'
+
+version = '1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+	testCompile project.ext.junit
+	testCompile project.ext.mockito
+}
+
+
+//Con que nombre de jar y con que version se va a generar
+jar {
+	manifest {
+		attributes 'Implementation-Title': 'proyecto1',
+		           'Implementation-Version': version
+	}
+}
+
+//Esta definicion permite que cuando generemos pruebas el genere cobertura con jacocoTest.exec
+test {
+	jacoco {
+		append = false
+		destinationFile = file("jacoco/jacocoTest.exec")
+	}
+	reports.junitXml.destination = file("jacoco/test-results")
+}
+
+//jacocoTestReport.dependsIn(test)
